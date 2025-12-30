@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="550.0" prefWidth="850.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ride_service_manager.RegisterDriverController">
+    <top>
+        <VBox alignment="CENTER" prefHeight="66.0" prefWidth="600.0" styleClass="branding-side" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Driver Registration" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="36.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+    </top>
+    <left>
+        <VBox alignment="TOP_CENTER" minWidth="400.0" prefHeight="334.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" spacing="10">
+                    <children>
+                        <Label text="Profile Picture" textFill="#7f8c8d" />
+                        <StackPane style="-fx-background-color: #f1f2f6; -fx-background-radius: 50;">
+                            <children>
+                                <ImageView fx:id="profileImageView" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/pfp.png" />
+                           </image></ImageView>
+                            </children>
+                        </StackPane>
+                        <Button onAction="#onSelectImageClicked" styleClass="login-btn" text="Upload Image" />
+                    </children>
+                </VBox>
+
+                <TextField fx:id="firstName" onKeyTyped="#onActionRestore" promptText="First name" styleClass="modern-input" />
+                <TextField fx:id="familyName" onKeyTyped="#onActionRestore" promptText="Family name" styleClass="modern-input" />
+                <TextField fx:id="email" onKeyTyped="#onActionRestore" promptText="Email" styleClass="modern-input" />
+
+                <TextField fx:id="phoneNumber" onKeyTyped="#onActionRestore" promptText="Estimated Arrival Time (e.g. 5 mins)" styleClass="modern-input" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="TOP_CENTER" minWidth="400.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+            <TextField fx:id="estimatedTime" promptText="Phone number" styleClass="modern-input" />
+                <PasswordField fx:id="password" onKeyTyped="#onActionRestore" promptText="Password" styleClass="modern-input" />
+                <PasswordField fx:id="password2" onKeyTyped="#onActionRestore" promptText="Confirm password" styleClass="modern-input" />
+
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label minWidth="100.0" text="Vehicle Type" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="vehicleTypeCombo" prefWidth="150.0" promptText="Select Type..." styleClass="modern-input" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" spacing="50.0">
+                    <children>
+                        <Label minWidth="100.0" text="Available" />
+                        <Region HBox.hgrow="ALWAYS" />
+                  <RadioButton fx:id="yesRadioBtn" mnemonicParsing="false" selected="true" text="yes">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Available" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="noRadioBtn" mnemonicParsing="false" text="no" toggleGroup="$Available" />
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label minWidth="100.0" text="Wilaya" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="wilayaCombo" onAction="#onActionRestore" prefWidth="150.0" promptText="Select Wilaya..." styleClass="modern-input" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#onRegisterClicked" styleClass="login-btn" text="Register as Driver" />
+            <HBox alignment="CENTER">
+               <children>
+                  <Label text="Already have an account?" />
+                  <Hyperlink onAction="#onLoginClicked" styleClass="register-link" text="Login..." />
+               </children>
+            </HBox>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </bottom>
+</BorderPane>
