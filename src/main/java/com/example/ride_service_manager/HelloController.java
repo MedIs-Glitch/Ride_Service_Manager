@@ -1,7 +1,6 @@
 package com.example.ride_service_manager;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
@@ -9,8 +8,12 @@ import java.io.IOException;
 public class HelloController {
 
     @FXML
-    protected void onLoginClicked() {
-        System.out.println("Login button clicked!");
+    protected void onLoginClicked(ActionEvent event)  {
+        try {
+            SceneManager.switchScene(event, "passenger-dashboard-view.fxml");
+        } catch (IOException e) {
+            System.err.println("Unable to load preference view - OnLoginClicked() - HelloController");
+        }
     }
 
     @FXML
@@ -18,7 +21,7 @@ public class HelloController {
         try {
             SceneManager.switchScene(event, "register-passenger-view.fxml");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Unable to load preference view - OnPreferenceClicked() - PassengerController");
         }
     }
 
@@ -27,7 +30,7 @@ public class HelloController {
         try {
             SceneManager.switchScene(event, "register-driver-view.fxml");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Unable to load preference view - OnPreferenceClicked() - PassengerController");
         }
     }
 

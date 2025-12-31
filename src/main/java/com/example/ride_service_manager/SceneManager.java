@@ -11,6 +11,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class SceneManager {
+
+    public static SceneManager instance;
+
+    private SceneManager() {
+    }
+
+    public static SceneManager getInstance() {
+        if (instance == null) {
+            instance = new SceneManager();
+        }
+        return instance;
+    }
+
     public static void switchScene(ActionEvent event, String fxmlFile) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(SceneManager.class.getResource(fxmlFile)));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -24,5 +37,10 @@ public class SceneManager {
         stage.setY(stageCenterY - stage.getHeight() / 2);
 
         stage.show();
+    }
+
+    // Utility to swap the center content
+    public Node loadSubView(String fxml) throws IOException {
+        return new FXMLLoader(getClass().getResource(fxml)).load();
     }
 }

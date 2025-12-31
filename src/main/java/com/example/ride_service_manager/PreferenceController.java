@@ -1,21 +1,26 @@
 package com.example.ride_service_manager;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 public class PreferenceController {
 
-    @FXML
-    ComboBox<String> typeCombo;
+    @FXML private TextField desiredNumber;
 
     @FXML
-    public void initialize() {
-        typeCombo.getItems().addAll("Standard", "Premium");
+    protected void onSelectClicked(ActionEvent event) {
+        if(desiredNumber.getText().isEmpty()) {
+            desiredNumber.setStyle("-fx-border-color: red ;");
+        }
     }
 
     @FXML
-    public void onFindDriversClicked(ActionEvent actionEvent) {
-        System.out.println("Driver found");
+    protected void onActionRestore(Event event) {
+        Node source = (Node) event.getSource();
+        source.setStyle("");
     }
 }
