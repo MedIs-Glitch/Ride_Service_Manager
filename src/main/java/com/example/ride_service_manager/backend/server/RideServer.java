@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RideServer extends UnicastRemoteObject implements RideServerRMI {
@@ -31,8 +32,8 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         try {
 
 //            System.setProperty("java.rmi.server.hostname", "localhost");
-//            LocateRegistry.createRegistry(1098); //required port
-            Naming.rebind("rmi://localhost/RideServer", new RideServer());
+            LocateRegistry.createRegistry(1098); //required port
+            Naming.rebind("rmi://localhost:1098/RideServer", new RideServer());
             System.out.println("RideServer ready");
 
         } catch (MalformedURLException | RemoteException e) {
@@ -89,7 +90,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             System.err.println("Error registering passenger: " + e.getMessage());
         }
 
-        return 0;
+        return 0; // General error
     }
 
 
@@ -116,7 +117,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         // if the email is not for the passenger, we check for driver
         DriverServerRMI driverServer;
         try {
-            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost/DriverServer");
+            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost:1098/DriverServer");
             String driverPassword = driverServer.getDriverPassword(email);
             if (driverPassword != null && driverPassword.equals(password)) {
                 System.out.println("Driver logged in: " + email);
@@ -132,11 +133,38 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
 
     @Override
     public Passenger getPassengerByEmail(String email) throws RemoteException {
+        FileReader passengerDataReader;
+        try {
+            passengerDataReader = new FileReader(DATA_FOLDER + PASSENGER_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(passengerDataReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 5 && parts[3].equals(email)) {
+                    Passenger passenger = new Passenger(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]);
+                    bufferedReader.close();
+                    return passenger; // Return the passenger object
+                }
+            }
+            bufferedReader.close();
+        } catch (Exception e) {
+            System.err.println("Error retrieving passenger data: " + e.getMessage());
+        }
         return null;
     }
 
     @Override
     public int determineRideMode(Driver driver) throws RemoteException {
-        return 0;
+        if (driver == null) {
+            System.err.println("Driver object is null");
+            return 0; // Error
+        }
+        if (driver.getAvailability().equals("Available")) {
+            System.out.println("Driver is available: " + driver.getEmail());
+            return 1; // Driver is available
+        } else {
+            System.out.println("Driver is not available: " + driver.getEmail());
+            return 2; // Driver is not available
+        }
     }
 }

@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
@@ -28,8 +29,8 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
     public static void main(String[] args) {
         try {
 //            System.setProperty("java.rmi.server.hostname", "localhost");
-//            LocateRegistry.createRegistry(1098); //required port
-            Naming.rebind("rmi://localhost/DriverServer", new DriverServer());
+            LocateRegistry.createRegistry(1096); //required port
+            Naming.rebind("rmi://localhost:1096/DriverServer", new DriverServer());
             System.out.println("DriverServer ready");
 
         } catch (MalformedURLException | RemoteException e) {
