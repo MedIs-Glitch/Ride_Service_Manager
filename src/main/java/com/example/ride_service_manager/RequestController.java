@@ -20,7 +20,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class PreferenceController {
+public class RequestController {
 
     @FXML private TextField desiredNumber;
     @FXML private VBox vbox;
@@ -63,8 +63,8 @@ public class PreferenceController {
                     option.setNumberOfPassengers(Integer.parseInt(desiredNumber.getText()));
                     try {
                         Launcher.client.rideOptions = option;
-                        Launcher.client.driversList = Launcher.client.getDriversWithPreference(option);
-                        System.out.println(Launcher.client.driversList.size() + " drivers found with the selected preference.");
+                        ArrayList<Driver> driversList = Launcher.client.getDriversWithPreference(option);
+                        System.out.println(driversList.size() + " drivers found with the selected preference.");
 
                         contentArea.getChildren().setAll(
                                 SceneManager.getInstance()

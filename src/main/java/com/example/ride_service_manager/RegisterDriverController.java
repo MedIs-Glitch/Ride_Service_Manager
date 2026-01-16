@@ -14,6 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class RegisterDriverController {
 
@@ -51,7 +54,28 @@ public class RegisterDriverController {
     @FXML
     protected void onRegisterClicked() {
         if(CheckFields()) {
-            System.out.println("Register successful!");
+            if(CheckFields()) {
+                String availability;
+                if(yesRadioBtn.isSelected()) availability = "available";
+                else availability = "not available";
+
+                int test = -2;
+                try {
+                    test = Launcher.client.registerDriver(firstName.getText(), familyName.getText(), phoneNumber.getText(), email.getText(),password.getText(), password2.getText(),wilayaCombo.getValue(), vehicleTypeCombo.getValue(), Integer.parseInt(estimatedTime.getText()), availability, profileImageView.getImage() != null ? profileImageView.getImage().getUrl() : "");
+                } catch (MalformedURLException e) {
+                    throw new RuntimeException(e);
+                } catch (NotBoundException e) {
+                    throw new RuntimeException(e);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                if(test == 1) System.out.println("Register successful!");
+                else if(test == 0) System.out.println("Register already exists!");
+                else if(test == -2) System.out.println("Register failed!, test = -2");
+            }
+            else {
+                System.out.println("Register failed!");
+            }
         }
         else {
             System.out.println("Register failed!");

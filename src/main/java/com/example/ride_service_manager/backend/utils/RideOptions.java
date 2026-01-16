@@ -1,6 +1,9 @@
 package com.example.ride_service_manager.backend.utils;
 
-public class RideOptions {
+import java.io.Serializable;
+
+public class RideOptions implements Serializable {
+    private static final long serialVersionUID = 1L;
     //Ride type (Standard or Premium) | Estimated price | Estimated travel time | Distance | Input field for the desired number of passengers
     String rideType;
     double estimatedPrice;

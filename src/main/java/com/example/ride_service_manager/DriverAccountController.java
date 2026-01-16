@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class PassengerAccountController {
+public class DriverAccountController {
 
     @FXML
     private Circle pfp;
@@ -23,6 +23,12 @@ public class PassengerAccountController {
     private Label emailLabel;
     @FXML
     private Label wilayaLabel;
+    @FXML
+    private Label type;
+    @FXML
+    private Label estimated;
+    @FXML
+    private Label availability;
 
 
     @FXML
@@ -33,11 +39,14 @@ public class PassengerAccountController {
         pfp.setFill(new ImagePattern(img));
 
         // fill passenger's information
-        nameLabel.setText(Launcher.client.passengerSession.getFirstName());
-        familyNameLabel.setText(Launcher.client.passengerSession.getFamilyName());
-        phoneLabel.setText(Launcher.client.passengerSession.getPhoneNumber());
-        emailLabel.setText(Launcher.client.passengerSession.getEmail());
-        wilayaLabel.setText(Launcher.client.passengerSession.getWilaya());
+        nameLabel.setText(Launcher.client.driverSession.getFirstName());
+        familyNameLabel.setText(Launcher.client.driverSession.getFamilyName());
+        phoneLabel.setText(Launcher.client.driverSession.getPhoneNumber());
+        emailLabel.setText(Launcher.client.driverSession.getEmail());
+        wilayaLabel.setText(Launcher.client.driverSession.getWilaya());
+        type.setText(Launcher.client.driverSession.getVehicleType());
+        estimated.setText(String.valueOf(Launcher.client.driverSession.getEstimatedArrivalTimeMinutes()) + " min");
+        availability.setText(Launcher.client.driverSession.getAvailability());
 
     }
 

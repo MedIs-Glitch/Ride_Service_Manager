@@ -185,6 +185,7 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
 
     @Override
     public ArrayList<Driver> getDriversWithPreference(RideOptions rideOptions) throws RemoteException {
+        System.out.println("hhhhhh");
         ArrayList<Driver> matchingDrivers = new ArrayList<>();
         FileReader driverDataReader;
         try {
@@ -193,6 +194,7 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
+                System.out.println("length: " + parts.length);
                 if (parts.length > 8) {
 
                     // Example matching logic based on vehicle type and availability

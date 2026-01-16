@@ -1,6 +1,9 @@
 package com.example.ride_service_manager.backend.utils;
 
-public class Driver {
+import java.io.Serializable;
+
+public class Driver implements Serializable {
+    private static final long serialVersionUID = 1L;
     String firstName;
     String familyName;
     String phoneNumber;

@@ -131,7 +131,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         // if the email is not for the passenger, we check for driver
         DriverServerRMI driverServer;
         try {
-            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost:1098/DriverServer");
+            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost:1096/DriverServer");
             String driverPassword = driverServer.getDriverPassword(email);
             if (driverPassword != null && driverPassword.equals(password)) {
                 System.out.println("Driver logged in: " + email);

@@ -16,8 +16,6 @@ import java.rmi.RemoteException;
 
 public class RegisterPassengerController {
 
-    private Client client;
-
     @FXML PasswordField password;
     @FXML PasswordField password2;
     @FXML
@@ -36,19 +34,13 @@ public class RegisterPassengerController {
     public void initialize()  {
         wilayaCombo.getItems().addAll(Statics.ALGERIA_WILAYAS);
 
-        // Initialize PassengerClient
-        try {
-            client = new Client();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
     @FXML
     protected void onRegisterClicked() throws MalformedURLException, NotBoundException, RemoteException {
         if(CheckFields()) {
-            int test = client.registerPassenger(firstName.getText(), familyName.getText(), phoneNumber.getText(), email.getText(),password.getText(), password2.getText(),wilayaCombo.getValue());
+            int test = Launcher.client.registerPassenger(firstName.getText(), familyName.getText(), phoneNumber.getText(), email.getText(),password.getText(), password2.getText(),wilayaCombo.getValue());
             if(test == 1) System.out.println("Register successful!");
             else if(test == 0) System.out.println("Register already exists!");
             else if(test == -2) System.out.println("Register failed!, test = -2");

@@ -11,30 +11,29 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class PassengerController {
+public class DriverController {
 
     @FXML private VBox contentArea;
 
     @FXML protected void initialize(){
-        onPreferenceClicked();
+        onRequestsClicked();
     }
 
     // 1. Initial Preference Button Click
     @FXML
-    private void onPreferenceClicked() {
+    private void onRequestsClicked() {
         try {
-            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("preference-view.fxml", contentArea));
+            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("requests-view.fxml", contentArea));
         } catch (IOException e) {
-            System.err.println("Unable to load preference view - OnPreferenceClicked() - PassengerController");
+            System.err.println("Unable to load requests view - onRequestsClicked() - DriverController");
         }
     }
 
     @FXML
     protected void onAccountClicked(ActionEvent event) throws IOException {
         try {
-            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("passenger-account-view.fxml"));
+            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("driver-account-view.fxml"));
         } catch (IOException e) {
-            System.err.println("Unable to load Passenger Account view - OnPreferenceClicked() - PassengerController");
             e.printStackTrace();
         }
     }
@@ -42,7 +41,7 @@ public class PassengerController {
     @FXML
     protected void onRideHistoryClicked(ActionEvent event) throws IOException {
         try {
-            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("ride-history-view.fxml"));
+            contentArea.getChildren().setAll(SceneManager.getInstance().loadSubView("driver-ride-history-view.fxml"));
         } catch (IOException e) {
             System.err.println("Unable to load Passenger Account view - OnPreferenceClicked() - PassengerController");
             e.printStackTrace();

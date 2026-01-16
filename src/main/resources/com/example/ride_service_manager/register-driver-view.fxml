@@ -52,7 +52,7 @@
                 <TextField fx:id="familyName" onKeyTyped="#onActionRestore" promptText="Family name" styleClass="modern-input" />
                 <TextField fx:id="email" onKeyTyped="#onActionRestore" promptText="Email" styleClass="modern-input" />
 
-                <TextField fx:id="phoneNumber" onKeyTyped="#onActionRestore" promptText="Estimated Arrival Time (e.g. 5 mins)" styleClass="modern-input" />
+                <TextField fx:id="estimatedTime" onKeyTyped="#onActionRestore" promptText="Estimated Arrival Time (e.g. 5 mins)" styleClass="modern-input" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -62,7 +62,7 @@
     <center>
         <VBox alignment="TOP_CENTER" minWidth="400.0" spacing="20.0" BorderPane.alignment="CENTER">
             <children>
-            <TextField fx:id="estimatedTime" promptText="Phone number" styleClass="modern-input" />
+            <TextField fx:id="phoneNumber" promptText="Phone number" styleClass="modern-input" />
                 <PasswordField fx:id="password" onKeyTyped="#onActionRestore" promptText="Password" styleClass="modern-input" />
                 <PasswordField fx:id="password2" onKeyTyped="#onActionRestore" promptText="Confirm password" styleClass="modern-input" />
 

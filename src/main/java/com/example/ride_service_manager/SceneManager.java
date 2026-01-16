@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -43,4 +44,19 @@ public class SceneManager {
     public Node loadSubView(String fxml) throws IOException {
         return new FXMLLoader(getClass().getResource(fxml)).load();
     }
+
+    public Node loadSubView(String fxml, VBox contentArea) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Node view = loader.load();
+
+        Object controller = loader.getController();
+
+        if (controller instanceof PreferenceController) {
+            ((PreferenceController) controller).setContentArea(contentArea);
+        }
+
+        return view;
+    }
+
+
 }

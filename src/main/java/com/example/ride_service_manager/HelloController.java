@@ -11,8 +11,6 @@ import java.rmi.NotBoundException;
 
 public class HelloController {
 
-    private Client client;
-
     @FXML
     private TextField email;
     @FXML
@@ -21,19 +19,16 @@ public class HelloController {
     @FXML
     public void initialize(){
         // Initialize Client
-        try {
-            client = new Client();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @FXML
     protected void onLoginClicked(ActionEvent event)  {
         try {
-            int test = client.login(email.getText(), psw.getText());
+            int test = Launcher.client.login(email.getText(), psw.getText());
             if(test == 1) {
                 System.out.println("Driver's Login successful!");
+                System.out.println("Passenger's Login successful!");
+                SceneManager.switchScene(event, "driver-dashboard-view.fxml");
             }
             else if(test == 2) {
                 System.out.println("Passenger's Login successful!");
