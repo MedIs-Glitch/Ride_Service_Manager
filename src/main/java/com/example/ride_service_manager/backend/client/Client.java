@@ -4,9 +4,7 @@ import com.example.ride_service_manager.Launcher;
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
 import com.example.ride_service_manager.backend.rmi.OptionServerRMI;
 import com.example.ride_service_manager.backend.rmi.RideServerRMI;
-import com.example.ride_service_manager.backend.utils.Driver;
-import com.example.ride_service_manager.backend.utils.Passenger;
-import com.example.ride_service_manager.backend.utils.RideOptions;
+import com.example.ride_service_manager.backend.utils.*;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -108,6 +106,48 @@ public class Client {
         catch(Exception e){
             System.err.println(e.getMessage());
             return 0;
+        }
+    }
+
+    public ArrayList<Request> getRideRequestsForDriver(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return null; //lookUpRideServer.getRideRequestsForDriver(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
+        }
+    }
+
+    public ArrayList<RideHistory> getRideHistoryForPassenger(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            System.out.println("Getting ride history for passenger: " + email);
+            return lookUpRideServer.getCompletedRidesOptionsHistoryForPassenger(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
+        }
+    }
+
+    public ArrayList<RideHistory> getRideHistoryForDriver(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpDriverServer.getRideHistory(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
+        }
+    }
+
+    public String getLastRequestStatus(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            System.out.println("Getting last request status for: " + email);
+            return lookUpRideServer.getLastRequestStatus(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
         }
     }
 
