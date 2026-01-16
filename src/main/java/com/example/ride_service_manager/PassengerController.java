@@ -10,12 +10,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class PassengerController {
 
+    @FXML private Label status;
     @FXML private VBox contentArea;
 
     @FXML protected void initialize(){
+        try {
+            status.setText(Launcher.client.getLastRequestStatus(Launcher.client.passengerSession.getEmail()));
+            System.out.println(status.getText());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         onPreferenceClicked();
     }
 

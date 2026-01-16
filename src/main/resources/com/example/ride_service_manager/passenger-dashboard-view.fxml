@@ -21,7 +21,7 @@
             <Button onAction="#onPreferenceClicked" styleClass="secondary-btn" text="Enter your preference for this ride!" />
                 <Button onAction="#onAccountClicked" styleClass="secondary-btn" text="Account" />
                 <Button onAction="#onRideHistoryClicked" styleClass="secondary-btn" text="Ride History" />
-                <Label text="Last Ride: Completed" textFill="#d1d1d1" />
+                <Label fx:id ="status" text="Last Ride: Completed" textFill="#d1d1d1" />
             </children>
             <padding><Insets left="20.0" right="20.0" /></padding>
         </HBox>

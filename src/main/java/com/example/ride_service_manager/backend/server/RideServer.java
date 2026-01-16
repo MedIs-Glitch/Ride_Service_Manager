@@ -240,6 +240,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     @Override
     public String getLastRequestStatus(String passengerEmail) throws RemoteException {
         try {
+            System.out.println("Retrieving last request status for passenger: " + passengerEmail);
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
             String line;
@@ -414,6 +415,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     @Override
     public ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException {
         try {
+            System.out.println("Retrieving completed rides history for passenger: " + passengerEmail);
             FileReader rideDataReader = new FileReader(DATA_FOLDER + RIDE_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(rideDataReader);
             String line;

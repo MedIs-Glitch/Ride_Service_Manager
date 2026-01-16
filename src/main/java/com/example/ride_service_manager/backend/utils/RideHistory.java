@@ -10,6 +10,70 @@ public class RideHistory {
     //                + "completed"
     //                +"\n";
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRideType() {
+        return rideType;
+    }
+
+    public void setRideType(String rideType) {
+        this.rideType = rideType;
+    }
+
+    public String getRideMode() {
+        return rideMode;
+    }
+
+    public void setRideMode(String rideMode) {
+        this.rideMode = rideMode;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     String email, driverName, rideType, rideMode,
            feedback, location, time, status;
 
