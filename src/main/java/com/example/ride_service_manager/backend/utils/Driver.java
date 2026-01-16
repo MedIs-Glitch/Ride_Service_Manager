@@ -66,4 +66,8 @@ public class Driver {
     public String getPicturePath() {
         return picturePath;
     }
+
+    public String getFullName() {
+        return firstName + " " + familyName;
+    }
 }

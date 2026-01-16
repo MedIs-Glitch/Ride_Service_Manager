@@ -40,4 +40,8 @@ public class Passenger {
     public String getWilaya() {
         return wilaya;
     }
+
+    public String getFullName() {
+        return firstName + " " + familyName;
+    }
 }

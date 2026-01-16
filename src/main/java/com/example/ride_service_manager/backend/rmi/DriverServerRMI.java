@@ -1,6 +1,8 @@
 package com.example.ride_service_manager.backend.rmi;
 
 import com.example.ride_service_manager.backend.utils.Driver;
+import com.example.ride_service_manager.backend.utils.Passenger;
+import com.example.ride_service_manager.backend.utils.RideHistory;
 import com.example.ride_service_manager.backend.utils.RideOptions;
 
 import java.rmi.Remote;
@@ -50,4 +52,15 @@ public interface DriverServerRMI extends Remote {
      * @return A list of Drivers that match the specified RideOptions preferences.
      * */
     public ArrayList<Driver> getDriversWithPreference(RideOptions rideOptions) throws RemoteException;
+
+    /**
+     * Add a completed ride to the Driver's ride history.
+     * @return
+     *      1. If the ride is successfully added to the history, return 1.
+     *      2. If an error occurs while adding the ride, return 0.
+     * */
+    public int addRideToDriverHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+                                      String driverFeedback) throws RemoteException;
+
+    ArrayList<RideHistory> getRideHistory(String driverEmail) throws RemoteException;
 }

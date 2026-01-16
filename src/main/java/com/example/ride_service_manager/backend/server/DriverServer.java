@@ -1,7 +1,10 @@
 package com.example.ride_service_manager.backend.server;
 
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
+import com.example.ride_service_manager.backend.rmi.RideServerRMI;
 import com.example.ride_service_manager.backend.utils.Driver;
+import com.example.ride_service_manager.backend.utils.Passenger;
+import com.example.ride_service_manager.backend.utils.RideHistory;
 import com.example.ride_service_manager.backend.utils.RideOptions;
 
 import java.io.*;
@@ -73,6 +76,16 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
         // TODO: More validations can be added here (e.g., email format, password strength)
         //TODO: Problem if the email exists already in the passenger database
 
+        try {
+            RideServerRMI rideServer = (RideServerRMI) Naming.lookup("rmi://localhost:1098/RideServer");
+            if (rideServer.getPassengerPassword(email) != null) {
+                System.err.println("Email already registered in passenger database: " + email);
+                return -3; // Email already registered as passenger
+            }
+        } catch (Exception e) {
+            System.err.println("Error checking passenger database: " + e.getMessage());
+            return 0; // General error
+        }
         //--------------------------------------------------------------
         String driverRecord = firstName + "|" + familyName + "|" + phoneNumber + "|" + email + "|" + password + "|"
                 + wilaya + "|" + vehicleType + "|" + estimatedArrivalTimeMinutes + "|" + availability
@@ -181,8 +194,6 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts.length > 8) {
-                    String vehicleType = parts[6];
-                    String availability = parts[8];
 
                     // Example matching logic based on vehicle type and availability
 //                    if (vehicleType.equalsIgnoreCase(rideOptions.getRideType()) &&
@@ -199,6 +210,54 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
             System.err.println("Driver data file not found: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Error reading driver data: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public int addRideToDriverHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+                                      String driverFeedback) throws RemoteException {
+        String rideRecord = driver.getEmail() + "|" + passenger.getFullName() + "|" +
+                rideOptions.getRideType() + "|" + rideOptions.getRideMode() + "|" +
+                driverFeedback + "\n";
+        try {
+            FileWriter rideHistoryWriter = new FileWriter(DATA_FOLDER + DRIVER_RIDE_HISTORY, true);
+            rideHistoryWriter.write(rideRecord);
+            rideHistoryWriter.flush();
+            rideHistoryWriter.close();
+            System.out.println("Ride added to driver history: " + driver.getEmail());
+            return 1; // Success
+        } catch (IOException e) {
+            System.err.println("Error adding ride to driver history: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    @Override
+    public ArrayList<RideHistory> getRideHistory(String driverEmail) throws RemoteException {
+        FileReader rideHistoryReader;
+        try {
+            rideHistoryReader = new FileReader(DATA_FOLDER + DRIVER_RIDE_HISTORY);
+            BufferedReader bufferedReader = new BufferedReader(rideHistoryReader);
+            String line;
+            ArrayList<RideHistory> driverRideHistories = new ArrayList<>();
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 4 && parts[0].equals(driverEmail)) {
+                    RideHistory rideHistoryEntry = new RideHistory(driverEmail,
+                            parts[1], // driverName
+                            parts[2],
+                            parts[3], parts[4]);
+
+                    driverRideHistories.add(rideHistoryEntry);
+                }
+            }
+            bufferedReader.close();
+            return driverRideHistories;
+        } catch (FileNotFoundException e) {
+            System.err.println("Driver ride history file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading driver ride history: " + e.getMessage());
         }
         return null;
     }

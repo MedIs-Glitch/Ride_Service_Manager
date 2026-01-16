@@ -7,6 +7,9 @@ public class RideOptions {
     int estimatedTravelTime;
     double distance;
     int numberOfPassengers;
+    String rideMode; // instant ride OR scheduled ride
+
+    String location, time;
 
     public RideOptions(String rideType, double estimatedPrice, int estimatedTravelTime, double distance, int numberOfPassengers) {
         this.rideType = rideType;
@@ -39,4 +42,33 @@ public class RideOptions {
     public int getNumberOfPassengers() {
         return numberOfPassengers;
     }
+
+    public String getRideMode() {
+        return rideMode;
+    }
+
+    public void setRideMode(int rideMode) {
+        if (rideMode == 1) {
+            this.rideMode = "Instant";
+        } else {
+            this.rideMode = "Scheduled";
+        }
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 }

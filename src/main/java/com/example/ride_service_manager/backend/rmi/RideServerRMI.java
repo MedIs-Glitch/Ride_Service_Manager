@@ -1,10 +1,10 @@
 package com.example.ride_service_manager.backend.rmi;
 
-import com.example.ride_service_manager.backend.utils.Driver;
-import com.example.ride_service_manager.backend.utils.Passenger;
+import com.example.ride_service_manager.backend.utils.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public interface RideServerRMI extends Remote {
 
@@ -37,6 +37,13 @@ public interface RideServerRMI extends Remote {
      * */
     public Passenger getPassengerByEmail(String email) throws RemoteException;
 
+
+    /**
+     * Retrieve Passenger password by email.
+     * @return password associated with the given email. If the email does not exist, return null.
+     */
+    String getPassengerPassword(String email) throws RemoteException;
+
     /**
      * Determine the ride mode (instant ride OR scheduled ride) according to Driver availability.
      * If the Driver is available then it is an instant ride.
@@ -46,6 +53,38 @@ public interface RideServerRMI extends Remote {
      * */
     public int determineRideMode(Driver driver) throws RemoteException;
 
+
+    /**
+     * Add an ongoing ride to the Passenger's ride history.
+     * @return
+     *      1. If the ride is successfully added to the history, return 1.
+     *      2. If an error occurs while adding the ride, return 0.
+     * */
+    public int addOngoingRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+                                         String passengerFeedback) throws RemoteException;
+
+    /**
+     * Add a completed ride to the Passenger's ride history.
+     * @return
+     *      1. If the ride is successfully added to the history, return 1.
+     *      2. If an error occurs while adding the ride, return 0.
+     * */
+    int addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+                                           String passengerFeedback) throws RemoteException;
+
+    String getLastRequestStatus(String passengerEmail) throws RemoteException;
+
+    Request getOngoingRequestForPassenger(String passengerEmail) throws RemoteException;
+
+    Request getOngoingRequestForDriver(String driverEmail) throws RemoteException;
+
+    int driveAcceptRequest(String driverEmail, String passengerEmail) throws RemoteException;
+
+    int passengerCancelRequest(String passengerEmail, String driverEmail) throws RemoteException;
+
+    int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException;
+
+    ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException;
 
 
 }
