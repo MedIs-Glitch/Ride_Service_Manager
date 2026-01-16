@@ -7,5 +7,9 @@ import java.util.ArrayList;
 
 public interface OptionServerRMI extends Remote {
 
+    /**
+     * Retrieve available ride options.
+     * @return A list of available RideOptions.
+     * */
     public ArrayList<RideOptions> getAvailableOptions() throws RemoteException;
 }

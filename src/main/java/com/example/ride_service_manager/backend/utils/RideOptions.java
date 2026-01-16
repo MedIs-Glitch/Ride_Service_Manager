@@ -4,11 +4,11 @@ public class RideOptions {
     //Ride type (Standard or Premium) | Estimated price | Estimated travel time | Distance | Input field for the desired number of passengers
     String rideType;
     double estimatedPrice;
-    String estimatedTravelTime;
+    int estimatedTravelTime;
     double distance;
     int numberOfPassengers;
 
-    public RideOptions(String rideType, double estimatedPrice, String estimatedTravelTime, double distance, int numberOfPassengers) {
+    public RideOptions(String rideType, double estimatedPrice, int estimatedTravelTime, double distance, int numberOfPassengers) {
         this.rideType = rideType;
         this.estimatedPrice = estimatedPrice;
         this.estimatedTravelTime = estimatedTravelTime;
@@ -28,7 +28,7 @@ public class RideOptions {
         return estimatedPrice;
     }
 
-    public String getEstimatedTravelTime() {
+    public int getEstimatedTravelTime() {
         return estimatedTravelTime;
     }
 

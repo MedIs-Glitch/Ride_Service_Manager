@@ -2,6 +2,8 @@ package com.example.ride_service_manager.backend.server;
 
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
 import com.example.ride_service_manager.backend.rmi.RideServerRMI;
+import com.example.ride_service_manager.backend.utils.Driver;
+import com.example.ride_service_manager.backend.utils.Passenger;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -90,6 +92,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         return 0;
     }
 
+
     @Override
     public int login(String email, String password) throws RemoteException {
         FileReader passengerDataReader;
@@ -124,6 +127,16 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         }
 
 
+        return 0;
+    }
+
+    @Override
+    public Passenger getPassengerByEmail(String email) throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public int determineRideMode(Driver driver) throws RemoteException {
         return 0;
     }
 }

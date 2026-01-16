@@ -1,12 +1,15 @@
 package com.example.ride_service_manager.backend.server;
 
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
+import com.example.ride_service_manager.backend.utils.Driver;
+import com.example.ride_service_manager.backend.utils.RideOptions;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class DriverServer extends UnicastRemoteObject implements DriverServerRMI {
 
@@ -24,7 +27,6 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
 
     public static void main(String[] args) {
         try {
-
 //            System.setProperty("java.rmi.server.hostname", "localhost");
 //            LocateRegistry.createRegistry(1098); //required port
             Naming.rebind("rmi://localhost/DriverServer", new DriverServer());
@@ -96,11 +98,78 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
 
     @Override
     public String getDriverPassword(String email) throws RemoteException {
+        FileReader driverDataReader;
+        try {
+            driverDataReader = new FileReader(DATA_FOLDER + DRIVER_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(driverDataReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 4 && parts[3].equals(email)) {
+                    bufferedReader.close();
+                    return parts[4]; // Return the password
+                }
+            }
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Driver data file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading driver data: " + e.getMessage());
+        }
         return null;
     }
 
     @Override
     public String getDriverAvailability(String email) throws RemoteException {
+        FileReader driverDataReader;
+        try {
+            driverDataReader = new FileReader(DATA_FOLDER + DRIVER_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(driverDataReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 8 && parts[3].equals(email)) {
+                    bufferedReader.close();
+                    return parts[8]; // Return the availability
+                }
+            }
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Driver data file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading driver data: " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Driver getDriverByEmail(String email) throws RemoteException {
+        FileReader driverDataReader;
+        try {
+            driverDataReader = new FileReader(DATA_FOLDER + DRIVER_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(driverDataReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 3 && parts[3].equals(email)) {
+                    Driver driver = new Driver(parts[0], parts[1], parts[2], parts[3], parts[4],
+                            parts[5], parts[6], Integer.parseInt(parts[7]), parts[8], parts[9]);
+                    bufferedReader.close();
+                    return driver;
+                }
+            }
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Driver data file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading driver data: " + e.getMessage());
+        }
+        return null;
+
+    }
+
+    @Override
+    public ArrayList<Driver> getDriversWithPreference(RideOptions rideOptions) throws RemoteException {
         return null;
     }
 }
