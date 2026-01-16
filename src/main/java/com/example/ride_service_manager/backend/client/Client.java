@@ -101,7 +101,7 @@ public class Client {
     public int determineRideMode(Driver driver, RideOptions options) throws MalformedURLException, NotBoundException, RemoteException {
         try{
             int test = lookUpRideServer.determineRideMode(driver);
-            //options.setRideMode(test);
+            options.setRideMode(test);
             System.out.println("Determined ride mode: " + test);
             return 1;
         }
