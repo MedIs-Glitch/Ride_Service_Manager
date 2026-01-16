@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RideServer extends UnicastRemoteObject implements RideServerRMI {
@@ -31,8 +32,8 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         try {
 
 //            System.setProperty("java.rmi.server.hostname", "localhost");
-//            LocateRegistry.createRegistry(1098); //required port
-            Naming.rebind("rmi://localhost/RideServer", new RideServer());
+            LocateRegistry.createRegistry(1098); //required port
+            Naming.rebind("rmi://localhost:1098/RideServer", new RideServer());
             System.out.println("RideServer ready");
 
         } catch (MalformedURLException | RemoteException e) {
@@ -116,7 +117,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
         // if the email is not for the passenger, we check for driver
         DriverServerRMI driverServer;
         try {
-            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost/DriverServer");
+            driverServer = (DriverServerRMI) Naming.lookup("rmi://localhost:1098/DriverServer");
             String driverPassword = driverServer.getDriverPassword(email);
             if (driverPassword != null && driverPassword.equals(password)) {
                 System.out.println("Driver logged in: " + email);

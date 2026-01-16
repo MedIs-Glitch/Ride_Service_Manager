@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
@@ -25,8 +26,8 @@ public class RideOptionServer extends UnicastRemoteObject implements OptionServe
         try {
 
 //            System.setProperty("java.rmi.server.hostname", "localhost");
-//            LocateRegistry.createRegistry(1098); //required port
-            Naming.rebind("rmi://localhost/RideOptionServer", new RideOptionServer());
+            LocateRegistry.createRegistry(1097); //required port
+            Naming.rebind("rmi://localhost:1097/RideOptionServer", new RideOptionServer());
             System.out.println("RideOptionServer ready");
 
         } catch (MalformedURLException | RemoteException e) {

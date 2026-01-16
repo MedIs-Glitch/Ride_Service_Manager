@@ -1,18 +1,49 @@
 package com.example.ride_service_manager;
 
+import com.example.ride_service_manager.backend.client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 
 public class HelloController {
+
+    private Client client;
+
+    @FXML
+    private TextField email;
+    @FXML
+    private PasswordField psw;
+
+    @FXML
+    public void initialize(){
+        // Initialize Client
+        try {
+            client = new Client();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     protected void onLoginClicked(ActionEvent event)  {
         try {
-            SceneManager.switchScene(event, "passenger-dashboard-view.fxml");
+            int test = client.login(email.getText(), psw.getText());
+            if(test == 1) {
+                System.out.println("Driver's Login successful!");
+            }
+            else if(test == 2) {
+                System.out.println("Passenger's Login successful!");
+                SceneManager.switchScene(event, "passenger-dashboard-view.fxml");
+            }
+            else if(test == 0) System.out.println("Login failed! Incorrect email or password.");
         } catch (IOException e) {
             System.err.println("Unable to load preference view - OnLoginClicked() - HelloController");
+        } catch (NotBoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
