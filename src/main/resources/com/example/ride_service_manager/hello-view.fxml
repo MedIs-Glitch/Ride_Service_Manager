@@ -36,7 +36,7 @@
                     </font>
                 </Label>
 
-                            <TextField promptText="Username" styleClass="modern-input" />
+                            <TextField fx:id="email" promptText="Email" styleClass="modern-input" />
                   <PasswordField fx:id="psw" promptText="Password" styleClass="modern-input" />
 
                             <Hyperlink onAction="#onForgotPSWClicked" styleClass="forgot-link" text="Forgot Password?" />

@@ -1,5 +1,6 @@
 package com.example.ride_service_manager;
 
+import com.example.ride_service_manager.backend.client.Client;
 import com.example.ride_service_manager.helpers.Statics;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -9,32 +10,48 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 public class RegisterPassengerController {
+
+    private Client client;
 
     @FXML PasswordField password;
     @FXML PasswordField password2;
     @FXML
-    TextField f1;
+    TextField firstName;
     @FXML
-    TextField f2;
+    TextField familyName;
     @FXML
-    TextField f3;
+    TextField email;
     @FXML
-    TextField f4;
+    TextField phoneNumber;
 
     @FXML
     ComboBox<String> wilayaCombo;
 
     @FXML
-    public void initialize() {
+    public void initialize()  {
         wilayaCombo.getItems().addAll(Statics.ALGERIA_WILAYAS);
+
+        // Initialize PassengerClient
+        try {
+            client = new Client();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     @FXML
-    protected void onRegisterClicked() {
+    protected void onRegisterClicked() throws MalformedURLException, NotBoundException, RemoteException {
         if(CheckFields()) {
-            System.out.println("Register successful!");
+            int test = client.registerPassenger(firstName.getText(), familyName.getText(), phoneNumber.getText(), email.getText(),password.getText(), password2.getText(),wilayaCombo.getValue());
+            if(test == 1) System.out.println("Register successful!");
+            else if(test == 0) System.out.println("Register already exists!");
+            else if(test == -2) System.out.println("Register failed!, test = -2");
         }
         else {
             System.out.println("Register failed!");
@@ -70,21 +87,21 @@ public class RegisterPassengerController {
         boolean flag = true;
 
         // check if fields are empty
-        if (f1.getText().isEmpty()) {
+        if (firstName.getText().isEmpty()) {
             flag = false;
-            f1.setStyle("-fx-border-color: red ;");
+            firstName.setStyle("-fx-border-color: red ;");
         }
-        if (f2.getText().isEmpty()) {
+        if (familyName.getText().isEmpty()) {
             flag = false;
-            f2.setStyle("-fx-border-color: red ;");
+            familyName.setStyle("-fx-border-color: red ;");
         }
-        if (f3.getText().isEmpty()) {
+        if (email.getText().isEmpty()) {
             flag = false;
-            f3.setStyle("-fx-border-color: red ;");
+            email.setStyle("-fx-border-color: red ;");
         }
-        if (f4.getText().isEmpty()) {
+        if (phoneNumber.getText().isEmpty()) {
             flag = false;
-            f4.setStyle("-fx-border-color: red ;");
+            phoneNumber.setStyle("-fx-border-color: red ;");
         }
         if(password.getText().isEmpty()){
             flag = false;

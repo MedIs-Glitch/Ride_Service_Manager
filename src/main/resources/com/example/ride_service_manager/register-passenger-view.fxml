@@ -29,10 +29,10 @@
    <left>
       <VBox alignment="TOP_CENTER" minWidth="400.0" prefHeight="334.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="f1" onKeyTyped="#onActionRestore" promptText="First name" styleClass="modern-input" />
-            <TextField fx:id="f2" onKeyTyped="#onActionRestore" promptText="Family name" styleClass="modern-input" />
-            <TextField fx:id="f3" onKeyTyped="#onActionRestore" promptText="Email" styleClass="modern-input" />
-            <TextField fx:id="f4" onKeyTyped="#onActionRestore" promptText="Phone Number" styleClass="modern-input" />
+            <TextField fx:id="firstName" onKeyTyped="#onActionRestore" promptText="First name" styleClass="modern-input" />
+            <TextField fx:id="familyName" onKeyTyped="#onActionRestore" promptText="Family name" styleClass="modern-input" />
+            <TextField fx:id="email" onKeyTyped="#onActionRestore" promptText="Email" styleClass="modern-input" />
+            <TextField fx:id="phoneNumber" onKeyTyped="#onActionRestore" promptText="Phone Number" styleClass="modern-input" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
