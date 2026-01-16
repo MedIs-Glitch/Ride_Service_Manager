@@ -11,9 +11,10 @@ public interface RideServerRMI extends Remote {
     /**
      * Register a new Passenger.
      * @return
-     *      1. If registration is successful, return 1.
-     *      2. If the email is already used, return 0.
+     *      1. If an unknown error occurs, return 0.
+     *      2. If registration is successful, return 1.
      *      3. If the password and password confirmation do not match, return -1.
+     *      4. If the email is already used, return -2.
      * */
     public int registerPassenger(String firstName, String familyName, String phoneNumber, String email,
                           String password, String passwordConfirmation, String wilaya) throws RemoteException;
@@ -44,4 +45,7 @@ public interface RideServerRMI extends Remote {
      *        Else, return 2 (scheduled ride).
      * */
     public int determineRideMode(Driver driver) throws RemoteException;
+
+
+
 }

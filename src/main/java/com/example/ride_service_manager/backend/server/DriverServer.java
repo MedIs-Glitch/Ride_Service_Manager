@@ -19,6 +19,7 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
     private static final String DATA_FOLDER = "DriverServerData/";
     private static final String PICTURE_SUBFOLDER = "DriverServerData/Pictures/";
     private static final String DRIVER_DATA_FILE = "drivers.txt";
+    private static final String DRIVER_RIDE_HISTORY = "driver_ride_history.txt";
 
     FileWriter driverDataWriter;
 
@@ -171,6 +172,34 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
 
     @Override
     public ArrayList<Driver> getDriversWithPreference(RideOptions rideOptions) throws RemoteException {
+        ArrayList<Driver> matchingDrivers = new ArrayList<>();
+        FileReader driverDataReader;
+        try {
+            driverDataReader = new FileReader(DATA_FOLDER + DRIVER_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(driverDataReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts.length > 8) {
+                    String vehicleType = parts[6];
+                    String availability = parts[8];
+
+                    // Example matching logic based on vehicle type and availability
+//                    if (vehicleType.equalsIgnoreCase(rideOptions.getRideType()) &&
+//                            availability.equalsIgnoreCase("Available")) {
+                        Driver driver = new Driver(parts[0], parts[1], parts[2], parts[3], parts[4],
+                                parts[5], parts[6], Integer.parseInt(parts[7]), parts[8], parts[9]);
+                        matchingDrivers.add(driver);
+//                    }
+                }
+            }
+            bufferedReader.close();
+            return matchingDrivers;
+        } catch (FileNotFoundException e) {
+            System.err.println("Driver data file not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading driver data: " + e.getMessage());
+        }
         return null;
     }
 }
