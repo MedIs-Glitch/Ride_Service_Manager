@@ -152,6 +152,15 @@ public class Client {
         }
     }
 
+    public Request getAcceptedRequestForPassenger(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.getAcceptedRequestForPassenger(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
+        }
+    }
 
 
 }

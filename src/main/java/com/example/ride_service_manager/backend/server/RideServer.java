@@ -261,14 +261,14 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     }
 
     @Override
-    public Request getOngoingRequestForPassenger(String passengerEmail) throws RemoteException {
+    public Request getAcceptedRequestForPassenger(String passengerEmail) throws RemoteException {
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
-                if (parts[0].equals(passengerEmail) && parts[2].equals("ongoing")) {
+                if (parts[0].equals(passengerEmail) && parts[2].equals("accepted")) {
                     Request request = new Request(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
                     bufferedReader.close();
                     return request; // Return the ongoing request object

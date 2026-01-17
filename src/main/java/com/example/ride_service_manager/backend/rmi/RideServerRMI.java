@@ -76,7 +76,7 @@ public interface RideServerRMI extends Remote {
 
     public String getLastRequestStatus(String passengerEmail) throws RemoteException;
 
-    public Request getOngoingRequestForPassenger(String passengerEmail) throws RemoteException;
+    public Request getAcceptedRequestForPassenger(String passengerEmail) throws RemoteException;
 
     public ArrayList<Request> getOngoingRequestsForDriver(String driverEmail) throws RemoteException;
 
