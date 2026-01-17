@@ -2,10 +2,7 @@ package com.example.ride_service_manager.backend.server;
 
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
 import com.example.ride_service_manager.backend.rmi.RideServerRMI;
-import com.example.ride_service_manager.backend.utils.Driver;
-import com.example.ride_service_manager.backend.utils.Passenger;
-import com.example.ride_service_manager.backend.utils.RideHistory;
-import com.example.ride_service_manager.backend.utils.RideOptions;
+import com.example.ride_service_manager.backend.utils.*;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -217,10 +214,10 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
     }
 
     @Override
-    public int addRideToDriverHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+    public int addRideToDriverHistory(Driver driver, Request request,
                                       String driverFeedback) throws RemoteException {
-        String rideRecord = driver.getEmail() + "|" + passenger.getFullName() + "|" +
-                rideOptions.getRideType() + "|" + rideOptions.getRideMode() + "|" +
+        String rideRecord = driver.getEmail() + "|" + request.getPassengerEmail() + "|" +
+                request.getRideType() + "|" + request.getRideMode() + "|" +
                 driverFeedback + "\n";
         try {
             FileWriter rideHistoryWriter = new FileWriter(DATA_FOLDER + DRIVER_RIDE_HISTORY, true);
