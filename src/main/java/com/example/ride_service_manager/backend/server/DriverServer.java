@@ -216,6 +216,7 @@ public class DriverServer extends UnicastRemoteObject implements DriverServerRMI
     @Override
     public int addRideToDriverHistory(Driver driver, Request request,
                                       String driverFeedback) throws RemoteException {
+        System.out.println("Adding ride to driver history for driver: " + driver.getEmail());
         String rideRecord = driver.getEmail() + "|" + request.getPassengerEmail() + "|" +
                 request.getRideType() + "|" + request.getRideMode() + "|" +
                 driverFeedback + "\n";

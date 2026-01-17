@@ -1,1 +1,2 @@
-s|sss|booked
+s|ggg|ongoing|Standard|Instant|null|N/A
+s|test|accepted|Standard|Instant|ANNNaba|N/A

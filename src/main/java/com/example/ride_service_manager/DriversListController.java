@@ -2,14 +2,12 @@ package com.example.ride_service_manager;
 
 import com.example.ride_service_manager.backend.utils.Driver;
 import com.example.ride_service_manager.backend.utils.RideOptions;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -56,11 +54,11 @@ public class DriversListController {
                         int test = Launcher.client.determineRideMode(driver, Launcher.client.rideOptions);
                         if(test == 1) {
                             // pop up "enter location"
-                            showLocationPopup();
+                            showLocationPopup(driver);
                         }
                         else if(test == 2) {
                             // pop up "enter location & enter date and time"
-                            showLocationAndTimePopup();
+                            showLocationAndTimePopup(driver);
                         }
 
                     } catch (MalformedURLException ex) {
@@ -77,7 +75,7 @@ public class DriversListController {
 
     }
 
-    private void showLocationPopup() {
+    private void showLocationPopup(Driver driver) {
         // Create new window (Stage)
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // blocks main window
@@ -96,6 +94,18 @@ public class DriversListController {
         submitBtn.setOnAction(e -> {
             String location = locationField.getText();
             System.out.println("Location entered: " + location);
+            String passengerEmail = Launcher.client.passengerSession.getEmail();
+            try {
+                RideOptions options = Launcher.client.rideOptions;
+                options.setLocation(location);
+                Launcher.client.createRequest(driver.getEmail(), passengerEmail, options);
+            } catch (MalformedURLException ex) {
+                throw new RuntimeException(ex);
+            } catch (NotBoundException ex) {
+                throw new RuntimeException(ex);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
             // TODO: do something with the location
             popupStage.close();
         });
@@ -109,7 +119,7 @@ public class DriversListController {
         popupStage.showAndWait(); // wait until user closes
     }
 
-    private void showLocationAndTimePopup() {
+    private void showLocationAndTimePopup(Driver driver) {
         // Create new window (Stage)
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL); // blocks main window
@@ -133,6 +143,19 @@ public class DriversListController {
             String time = timeField.getText();
             System.out.println("Location entered: " + location);
             System.out.println("Time entered: " + time);
+            String passengerEmail = Launcher.client.passengerSession.getEmail();
+            try {
+                RideOptions options = Launcher.client.rideOptions;
+                options.setLocation(location);
+                options.setTime(time);
+                Launcher.client.createRequest(driver.getEmail(), passengerEmail, options);
+            } catch (MalformedURLException ex) {
+                throw new RuntimeException(ex);
+            } catch (NotBoundException ex) {
+                throw new RuntimeException(ex);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
             // TODO: do something with the location & time
             popupStage.close();
         });

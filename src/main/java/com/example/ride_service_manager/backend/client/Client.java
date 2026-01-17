@@ -33,8 +33,6 @@ public class Client {
 
     public int registerPassenger(String firstName, String familyName, String phoneNumber, String email, String psw, String confPsw, String wilaya) throws MalformedURLException, NotBoundException, RemoteException {
         try{
-
-
             return lookUpRideServer.registerPassenger(firstName, familyName, phoneNumber, email, psw, confPsw, wilaya);
         }
         catch(Exception e){
@@ -162,5 +160,74 @@ public class Client {
         }
     }
 
+    public int createRequest(String driverEmail, String passengerEmail, RideOptions optoins) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.createRequest(passengerEmail, driverEmail, optoins);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return 0; // Error
+        }
+    }
+
+    public int driverAcceptRequest(String driverEmail, String passengerEmail) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.driveAcceptRequest(driverEmail, passengerEmail);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return 0; // Error
+        }
+    }
+
+    public int passengerCancelRequest(String passengerEmail, String driverEmail) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.passengerCancelRequest(passengerEmail, driverEmail);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return 0; // Error
+        }
+    }
+
+    public int driverCancelRequest(String driverEmail, String passengerEmail) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.driverCancelRequest(driverEmail, passengerEmail);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return 0; // Error
+        }
+    }
+
+    public ArrayList<Request> getOngoingRequestsForDriver(String driverEmail) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.getOngoingRequestsForDriver(driverEmail);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
+        }
+    }
+
+
+    public void addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+                                                   String passengerFeedback) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            lookUpRideServer.addCompletedRideToPassengerHistory(driver, passenger, rideOptions, passengerFeedback);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void addCompletedRideToDriverHistory(Driver driver, Request rq, String driverFeedback) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            lookUpDriverServer.addRideToDriverHistory(driver, rq , driverFeedback);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
 
 }
