@@ -25,11 +25,7 @@ public class RideHistoryController {
             rideHistories = Launcher.client.getRideHistoryForPassenger(Launcher.client.passengerSession.getEmail());
             System.out.println("ride history size:" + rideHistories.size());
             fillRideHistory();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (NotBoundException e) {
-            throw new RuntimeException(e);
-        } catch (RemoteException e) {
+        } catch (MalformedURLException | NotBoundException | RemoteException e) {
             throw new RuntimeException(e);
         }
     }

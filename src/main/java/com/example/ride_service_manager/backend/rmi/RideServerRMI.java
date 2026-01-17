@@ -54,6 +54,8 @@ public interface RideServerRMI extends Remote {
     public int determineRideMode(Driver driver) throws RemoteException;
 
 
+
+
     /**
      * Add an ongoing ride to the Passenger's ride history.
      * @return
@@ -72,19 +74,20 @@ public interface RideServerRMI extends Remote {
     int addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
                                            String passengerFeedback) throws RemoteException;
 
-    String getLastRequestStatus(String passengerEmail) throws RemoteException;
+    public String getLastRequestStatus(String passengerEmail) throws RemoteException;
 
-    Request getOngoingRequestForPassenger(String passengerEmail) throws RemoteException;
+    public Request getOngoingRequestForPassenger(String passengerEmail) throws RemoteException;
 
-    ArrayList<Request> getOngoingRequestsForDriver(String driverEmail) throws RemoteException;
+    public ArrayList<Request> getOngoingRequestsForDriver(String driverEmail) throws RemoteException;
 
-    int driveAcceptRequest(String driverEmail, String passengerEmail) throws RemoteException;
+    public int driveAcceptRequest(String driverEmail, String passengerEmail) throws RemoteException;
 
-    int passengerCancelRequest(String passengerEmail, String driverEmail) throws RemoteException;
+    public int passengerCancelRequest(String passengerEmail, String driverEmail) throws RemoteException;
 
-    int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException;
+    public int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException;
 
-    ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException;
+    public ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException;
 
+    int createRequest(String passengerEmail,String driverEmail, RideOptions rideOptions) throws RemoteException;
 
 }

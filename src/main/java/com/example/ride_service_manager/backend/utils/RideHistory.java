@@ -1,6 +1,10 @@
 package com.example.ride_service_manager.backend.utils;
 
-public class RideHistory {
+import java.io.Serializable;
+
+public class RideHistory implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     //containing these:
     //passenger.getEmail() + "|" + driver.getFullName() + "|" + rideOptions.getRideType() + "|"

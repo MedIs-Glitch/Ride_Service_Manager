@@ -1,9 +1,15 @@
 package com.example.ride_service_manager.backend.utils;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     String passengerEmail;
     String driverEmail;
     String status; // ongoing, completed, cancelled
+
+    RideHistory rideHistory;
 
     public Request(String passengerEmail, String driverEmail, String status) {
         this.passengerEmail = passengerEmail;

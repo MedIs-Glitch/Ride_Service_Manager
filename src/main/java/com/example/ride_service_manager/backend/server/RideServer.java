@@ -194,7 +194,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             System.err.println("Driver object is null");
             return 0; // Error
         }
-        if (driver.getAvailability().equals("Available")) {
+        if (driver.getAvailability().equals("available")) {
             System.out.println("Driver is available: " + driver.getEmail());
             return 1; // Driver is available
         } else {
@@ -306,6 +306,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     @Override
     public int driveAcceptRequest(String driverEmail, String passengerEmail) throws RemoteException {
         // overwrite the request status to "accepted" in the requests.txt file, if found, don't remove the content of the file
+        // consider the new parts of the request record we added in createRequest method
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
@@ -316,7 +317,11 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[1].equals(driverEmail) && parts[2].equals("ongoing")) {
-                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|accepted").append("\n");
+                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|accepted").append("|")
+                            .append(parts[3]).append("|")
+                            .append(parts[4]).append("|")
+                            .append(parts[5]).append("|")
+                            .append(parts[6]).append("\n");
                     requestFound = true;
                 } else {
                     fileContent.append(line).append("\n");
@@ -352,7 +357,10 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[1].equals(driverEmail) && parts[2].equals("ongoing")) {
-                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|cancelled").append("\n");
+                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|cancelled")
+                            .append("|").append(parts[3]).append("|").append(parts[4]).append("|")
+                            .append(parts[5]).append("|").append(parts[6])
+                            .append("\n");
                     requestFound = true;
                 } else {
                     fileContent.append(line).append("\n");
@@ -378,6 +386,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
 
     @Override
     public int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException {
+        // similar to passengerCancelRequest but initiated by driver
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
@@ -388,7 +397,10 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[1].equals(driverEmail) && parts[2].equals("ongoing")) {
-                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|cancelled").append("\n");
+                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|cancelled")
+                            .append("|").append(parts[3]).append("|").append(parts[4]).append("|")
+                            .append(parts[5]).append("|").append(parts[6])
+                            .append("\n");
                     requestFound = true;
                 } else {
                     fileContent.append(line).append("\n");
@@ -443,6 +455,33 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             System.err.println("Error retrieving completed rides history: " + e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public int createRequest(String passengerEmail, String driverEmail, RideOptions rideOptions) throws RemoteException {
+        // from ride options we take the ride type and ride mode and location and time
+        String time = (rideOptions.getTime() != null) ? rideOptions.getTime() : "N/A";
+        String record = passengerEmail + "|" + driverEmail + "|" + "ongoing" + "|" +
+                rideOptions.getRideType() + "|" +
+                rideOptions.getRideMode() + "|" +
+                rideOptions.getLocation() + "|" +
+                time + "\n";
+        try{
+            File dataFolder = new File(DATA_FOLDER);
+            if (!dataFolder.exists()) {
+                dataFolder.mkdirs();
+            }
+            rideDataWriter = new FileWriter(DATA_FOLDER + REQUEST_DATA_FILE, true);
+            rideDataWriter.write(record);
+            rideDataWriter.flush();
+            rideDataWriter.close();
+            System.out.println("Request created: Passenger " + passengerEmail + " Driver " + driverEmail);
+
+            return 1; // Indicate success
+        } catch (Exception e) {
+            System.err.println("Error creating request: " + e.getMessage());
+        }
+        return 0;
     }
 
     @Override

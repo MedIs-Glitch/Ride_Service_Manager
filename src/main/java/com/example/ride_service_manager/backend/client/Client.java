@@ -101,7 +101,7 @@ public class Client {
             int test = lookUpRideServer.determineRideMode(driver);
             options.setRideMode(test);
             System.out.println("Determined ride mode: " + test);
-            return 1;
+            return test;
         }
         catch(Exception e){
             System.err.println(e.getMessage());
@@ -124,8 +124,9 @@ public class Client {
             System.out.println("Getting ride history for passenger: " + email);
             return lookUpRideServer.getCompletedRidesOptionsHistoryForPassenger(email);
         }
-        catch(Exception e){
+        catch(RemoteException e){
             System.err.println(e.getMessage());
+            System.out.println("NULL HH");
             return null; // Error
         }
     }
@@ -150,5 +151,7 @@ public class Client {
             return null; // Error
         }
     }
+
+
 
 }

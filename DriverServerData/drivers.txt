@@ -1,1 +1,1 @@
-test|test|06666|test@gmail.com|test|Laghouat|Truck|5|not-available|file:/C:/Users/Islem/IdeaProjects/Ride%20Service%20Manager/target/classes/com/example/ride_service_manager/icons/pfp.png
+test|test|06666|test|test|Laghouat|Truck|5|available|file:/C:/Users/Islem/IdeaProjects/Ride%20Service%20Manager/target/classes/com/example/ride_service_manager/icons/pfp.png
