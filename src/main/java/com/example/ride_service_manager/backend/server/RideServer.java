@@ -269,7 +269,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[2].equals("ongoing")) {
-                    Request request = new Request(parts[0], parts[1], parts[2]);
+                    Request request = new Request(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
                     bufferedReader.close();
                     return request; // Return the ongoing request object
                 }
@@ -291,7 +291,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[1].equals(driverEmail) && parts[2].equals("ongoing")) {
-                    Request request = new Request(parts[0], parts[1], parts[2]);
+                    Request request = new Request(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
                     ongoingRequests.add(request); // Add the ongoing request to the list
                 }
             }
@@ -305,8 +305,6 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
 
     @Override
     public int driveAcceptRequest(String driverEmail, String passengerEmail) throws RemoteException {
-        // overwrite the request status to "accepted" in the requests.txt file, if found, don't remove the content of the file
-        // consider the new parts of the request record we added in createRequest method
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
