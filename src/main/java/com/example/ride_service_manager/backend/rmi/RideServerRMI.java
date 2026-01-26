@@ -84,7 +84,7 @@ public interface RideServerRMI extends Remote {
 
     public int passengerCancelRequest(String passengerEmail, String driverEmail) throws RemoteException;
 
-    public int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException;
+    public int driverRefuseRequest(String driverEmail, String passengerEmail) throws RemoteException;
 
     public ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException;
 

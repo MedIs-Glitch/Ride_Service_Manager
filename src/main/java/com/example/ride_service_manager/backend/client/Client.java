@@ -1,6 +1,5 @@
 package com.example.ride_service_manager.backend.client;
 
-import com.example.ride_service_manager.Launcher;
 import com.example.ride_service_manager.backend.rmi.DriverServerRMI;
 import com.example.ride_service_manager.backend.rmi.OptionServerRMI;
 import com.example.ride_service_manager.backend.rmi.RideServerRMI;
@@ -180,6 +179,16 @@ public class Client {
         }
     }
 
+    public int driverRefuseRequest(String driverEmail, String passengerEmail) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpRideServer.driverRefuseRequest(driverEmail, passengerEmail);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return 0; // Error
+        }
+    }
+
     public int passengerCancelRequest(String passengerEmail, String driverEmail) throws MalformedURLException, NotBoundException, RemoteException {
         try{
             return lookUpRideServer.passengerCancelRequest(passengerEmail, driverEmail);
@@ -192,7 +201,7 @@ public class Client {
 
     public int driverCancelRequest(String driverEmail, String passengerEmail) throws MalformedURLException, NotBoundException, RemoteException {
         try{
-            return lookUpRideServer.driverCancelRequest(driverEmail, passengerEmail);
+            return lookUpRideServer.driverRefuseRequest(driverEmail, passengerEmail);
         }
         catch(Exception e){
             System.err.println(e.getMessage());

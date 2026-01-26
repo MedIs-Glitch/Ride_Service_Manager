@@ -1,1 +1,2 @@
 test|s|Standard|Instant|qsdfqsdfqsdfqsdf
+test|s|Premium|Instant|A7777

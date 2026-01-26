@@ -383,7 +383,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     }
 
     @Override
-    public int driverCancelRequest(String driverEmail, String passengerEmail) throws RemoteException {
+    public int driverRefuseRequest(String driverEmail, String passengerEmail) throws RemoteException {
         // similar to passengerCancelRequest but initiated by driver
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
@@ -395,7 +395,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[1].equals(driverEmail) && parts[2].equals("ongoing")) {
-                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|cancelled")
+                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|refused")
                             .append("|").append(parts[3]).append("|").append(parts[4]).append("|")
                             .append(parts[5]).append("|").append(parts[6])
                             .append("\n");
