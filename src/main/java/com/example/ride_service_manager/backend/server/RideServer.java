@@ -426,7 +426,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     }
 
     @Override
-    public ArrayList<RideHistory> getCompletedRidesOptionsHistoryForPassenger(String passengerEmail) throws RemoteException {
+    public ArrayList<RideHistory> getCompletedRidesHistoryForPassenger(String passengerEmail) throws RemoteException {
         try {
             System.out.println("Retrieving completed rides history for passenger: " + passengerEmail);
             FileReader rideDataReader = new FileReader(DATA_FOLDER + RIDE_DATA_FILE);

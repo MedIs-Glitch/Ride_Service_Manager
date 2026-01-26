@@ -119,7 +119,7 @@ public class Client {
     public ArrayList<RideHistory> getRideHistoryForPassenger(String email) throws MalformedURLException, NotBoundException, RemoteException {
         try{
             System.out.println("Getting ride history for passenger: " + email);
-            return lookUpRideServer.getCompletedRidesOptionsHistoryForPassenger(email);
+            return lookUpRideServer.getCompletedRidesHistoryForPassenger(email);
         }
         catch(RemoteException e){
             System.err.println(e.getMessage());
@@ -243,6 +243,17 @@ public class Client {
         }
         catch(Exception e){
             System.err.println(e.getMessage());
+        }
+    }
+
+    //get driver ride history
+    public ArrayList<RideHistory> getDriverRideHistory(String email) throws MalformedURLException, NotBoundException, RemoteException {
+        try{
+            return lookUpDriverServer.getRideHistory(email);
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+            return null; // Error
         }
     }
 
