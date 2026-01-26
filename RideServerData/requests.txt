@@ -1,2 +1,6 @@
 s|ggg|ongoing|Standard|Instant|null|N/A
 s|test|accepted|Standard|Instant|ANNNaba|N/A
+s|test|accepted|Premium|Instant|guealmad|N/A
+s|test|ongoing|Standard|Instant|annaba23|N/A
+s|test|refused|Standard|Instant|annaba23|N/A
+s|test|canceled|Standard|Instant|annaba23|N/A
