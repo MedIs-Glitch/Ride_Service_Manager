@@ -557,7 +557,7 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
                 System.out.println("Last Request marked as completed for passenger: " + passengerEmail);
                 return 1; // Indicate success
             } else {
-                System.err.println("No matching accepted request found for passenger: " + passengerEmail + " and driver: " + driverEmail);
+                System.err.println("No matching accepted request found for passenger: " + passengerEmail);
             }
         } catch (Exception e) {
             System.err.println("Error marking request as completed: " + e.getMessage());
