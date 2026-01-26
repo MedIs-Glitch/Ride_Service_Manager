@@ -223,7 +223,14 @@ public class Client {
     public void addCompletedRideToPassengerHistory(Passenger passenger,
                                                    String passengerFeedback) throws MalformedURLException, NotBoundException, RemoteException {
         try{
-            lookUpRideServer.addCompletedRideToPassengerHistory(passenger, passengerFeedback);
+            int success = lookUpRideServer.addCompletedRideToPassengerHistory(passenger, passengerFeedback);
+            if(success == 1){
+                System.out.println("Ride successfully added to passenger history.");
+                lookUpRideServer.markLastAcceptedRequestAsCompleted(passenger.getEmail());
+            }
+            else{
+                System.out.println("Failed to add ride to passenger history.");
+            }
         }
         catch(Exception e){
             System.err.println(e.getMessage());

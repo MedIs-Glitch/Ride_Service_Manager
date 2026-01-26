@@ -90,4 +90,8 @@ public interface RideServerRMI extends Remote {
 
     int createRequest(String passengerEmail,String driverEmail, RideOptions rideOptions) throws RemoteException;
 
+    int notifyPassengerRequestAccepted(String passengerEmail) throws RemoteException;
+
+    int markLastAcceptedRequestAsCompleted(String passengerEmail) throws RemoteException;
+
 }

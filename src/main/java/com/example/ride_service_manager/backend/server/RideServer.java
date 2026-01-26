@@ -521,7 +521,49 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
 
 
 
+    public int notifyPassengerRequestAccepted(String passengerEmail) throws RemoteException {
+        return 0;
+    }
 
+
+    public int markLastAcceptedRequestAsCompleted(String passengerEmail) throws RemoteException {
+        try {
+            FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
+            BufferedReader bufferedReader = new BufferedReader(requestDataReader);
+            StringBuilder fileContent = new StringBuilder();
+            String line;
+            boolean requestFound = false;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                if (parts[0].equals(passengerEmail) && parts[2].equals("accepted")) {
+                    fileContent.append(parts[0]).append("|").append(parts[1]).append("|completed").append("|")
+                            .append(parts[3]).append("|")
+                            .append(parts[4]).append("|")
+                            .append(parts[5]).append("|")
+                            .append(parts[6]).append("\n");
+                    requestFound = true;
+                } else {
+                    fileContent.append(line).append("\n");
+                }
+            }
+            bufferedReader.close();
+
+            if (requestFound) {
+                FileWriter requestDataWriter = new FileWriter(DATA_FOLDER + REQUEST_DATA_FILE);
+                requestDataWriter.write(fileContent.toString());
+                requestDataWriter.flush();
+                requestDataWriter.close();
+                System.out.println("Last Request marked as completed for passenger: " + passengerEmail);
+                return 1; // Indicate success
+            } else {
+                System.err.println("No matching accepted request found for passenger: " + passengerEmail + " and driver: " + driverEmail);
+            }
+        } catch (Exception e) {
+            System.err.println("Error marking request as completed: " + e.getMessage());
+        }
+        return 0;
+    }
 
 
 }
