@@ -55,6 +55,10 @@ public class SceneManager {
             ((PreferenceController) controller).setContentArea(contentArea);
         }
 
+        if(controller instanceof DriversListController){
+            ((DriversListController) controller).setContentArea(contentArea);
+        }
+
         return view;
     }
 

@@ -1,17 +1,13 @@
 package com.example.ride_service_manager;
 
-import com.example.ride_service_manager.backend.client.Client;
 import com.example.ride_service_manager.backend.utils.Driver;
 import com.example.ride_service_manager.backend.utils.Request;
-import com.example.ride_service_manager.backend.utils.RideOptions;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -24,6 +20,7 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RequestController {
 
@@ -63,12 +60,15 @@ public class RequestController {
                 hbox.getChildren().add(label);
 
                 // make the select button
-                Button button = new Button("Accept");
-                button.setOnAction(e -> {
+                Button acceptButton = new Button("Accept");
+                acceptButton.setOnAction(e -> {
                     try {
                         Launcher.client.driverAcceptRequest(request.getDriverEmail(), request.getPassengerEmail());
+                        // delete the request from the list
+                        vbox.getChildren().remove(hbox);
                         // show feedback popup
                         showFeedBack(Launcher.client.driverSession, request);
+
                     } catch (MalformedURLException ex) {
                         throw new RuntimeException(ex);
                     } catch (RemoteException ex) {
@@ -79,7 +79,28 @@ public class RequestController {
                         throw new RuntimeException(ex);
                     }
                 });
-                hbox.getChildren().add(button);
+
+                // make the select button
+                Button refuseButton = new Button("Refuse");
+                // change its style to red
+                refuseButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+                refuseButton.setOnAction(e -> {
+                    try {
+                        Launcher.client.driverRefuseRequest(request.getDriverEmail(), request.getPassengerEmail());
+                        // delete the request from the list
+                        vbox.getChildren().remove(hbox);
+                    } catch (MalformedURLException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (NotBoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+                hbox.getChildren().add(acceptButton);
+                hbox.getChildren().add(refuseButton);
             }
         }
 
@@ -99,14 +120,16 @@ public class RequestController {
         Label label = new Label("Enter Feekback:");
         TextField feedBack = new TextField();
 
+        AtomicReference<String> feedBackText = new AtomicReference<>("Neutral");
+
         // Button
         Button submitBtn = new Button("Submit");
         submitBtn.setOnAction(e -> {
-            String feedBackText = feedBack.getText();
+            feedBackText.set(feedBack.getText());
             System.out.println("feedback entered: " + feedBackText);
+            System.out.println("Request info: " + request.toString());
             try {
-                System.out.println("Request info: " + request.toString());
-                Launcher.client.addCompletedRideToDriverHistory(driver, request, feedBackText);
+                Launcher.client.addCompletedRideToDriverHistory(driver, request, feedBackText.get());
             } catch (MalformedURLException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {
@@ -114,9 +137,10 @@ public class RequestController {
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            // TODO: do something with the location
+
             popupStage.close();
         });
+
 
         // Add nodes to layout
         root.getChildren().addAll(label, feedBack, submitBtn);

@@ -14,6 +14,7 @@
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="20.0" styleClass="branding-side" BorderPane.alignment="CENTER">
             <children>
+            <Button onAction="#onRefreshClicked" styleClass="secondary-btn" text="Refresh" />
                 <Label fx:id="welcomeLabel" text="Welcome, User!" textFill="WHITE">
                     <font><Font name="System Bold" size="18.0" /></font>
                 </Label>
@@ -21,7 +22,7 @@
             <Button onAction="#onPreferenceClicked" styleClass="secondary-btn" text="Enter your preference for this ride!" />
                 <Button onAction="#onAccountClicked" styleClass="secondary-btn" text="Account" />
                 <Button onAction="#onRideHistoryClicked" styleClass="secondary-btn" text="Ride History" />
-                <Label fx:id ="status" text="Last Ride: Completed" textFill="#d1d1d1" />
+                <Label fx:id="status" text="Last Ride: Completed" textFill="#d1d1d1" />
             </children>
             <padding><Insets left="20.0" right="20.0" /></padding>
         </HBox>

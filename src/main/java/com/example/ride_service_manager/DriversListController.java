@@ -1,7 +1,9 @@
 package com.example.ride_service_manager;
 
 import com.example.ride_service_manager.backend.utils.Driver;
+import com.example.ride_service_manager.backend.utils.Passenger;
 import com.example.ride_service_manager.backend.utils.RideOptions;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -15,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -99,11 +102,21 @@ public class DriversListController {
                 RideOptions options = Launcher.client.rideOptions;
                 options.setLocation(location);
                 Launcher.client.createRequest(driver.getEmail(), passengerEmail, options);
+                contentArea.getChildren().setAll(
+                        SceneManager.getInstance()
+                                .loadSubView("preference-view.fxml", contentArea)
+                );
+                Platform.runLater(() -> {
+                    PassengerController.instance.initialize();
+                });
+
             } catch (MalformedURLException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {
                 throw new RuntimeException(ex);
             } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             // TODO: do something with the location
@@ -149,11 +162,20 @@ public class DriversListController {
                 options.setLocation(location);
                 options.setTime(time);
                 Launcher.client.createRequest(driver.getEmail(), passengerEmail, options);
+                contentArea.getChildren().setAll(
+                        SceneManager.getInstance()
+                                .loadSubView("preference-view.fxml", contentArea)
+                );
+                Platform.runLater(() -> {
+                    PassengerController.instance.initialize();
+                });
             } catch (MalformedURLException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {
                 throw new RuntimeException(ex);
             } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             // TODO: do something with the location & time
@@ -169,5 +191,10 @@ public class DriversListController {
         popupStage.showAndWait(); // wait until user closes
     }
 
+    private VBox contentArea; // <-- parent container
+
+    public void setContentArea(VBox contentArea) {
+        this.contentArea = contentArea;
+    }
 
 }

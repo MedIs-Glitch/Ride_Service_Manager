@@ -1,6 +1,9 @@
-s|ggg|ongoing|Standard|Instant|null|N/A
-s|test|accepted|Standard|Instant|ANNNaba|N/A
-s|test|accepted|Premium|Instant|guealmad|N/A
-s|test|ongoing|Standard|Instant|annaba23|N/A
-s|test|refused|Standard|Instant|annaba23|N/A
-s|test|canceled|Standard|Instant|annaba23|N/A
+s|test|refused|Standard|Instant|null|N/A
+s|test|completed|Standard|Instant|ANNNaba|N/A
+s|test|completed|Premium|Instant|guealmad|N/A
+s|test|completed|Standard|Instant|annaba23|N/A
+s|test|completed|Standard|Instant|24|N/As|test|ongoing|Standard|Instant|Stif|N/A
+s|test|refused|Standard|Instant|Stiffffffffffffff|N/A
+s|test|completed|Standard|Instant|Guelma 2|N/A
+bob|test|refused|Standard|Instant|Guelma 2|N/A
+ahmed|test|ongoing|Standard|Instant|Guelma 2|N/A
