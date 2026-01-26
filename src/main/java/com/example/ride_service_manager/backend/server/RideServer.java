@@ -204,21 +204,25 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     }
 
     @Override
-    public int addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+    public int addCompletedRideToPassengerHistory(Passenger passenger,
                                                   String passengerFeedback) {
-        if (driver == null || passenger == null || rideOptions == null) {
-            System.err.println("One or more parameters are null");
-            return 0; // Error
-        }
-        String time = (rideOptions.getTime() != null) ? rideOptions.getTime() : "N/A";
-        String record = passenger.getEmail() + "|" + driver.getFullName() + "|" + rideOptions.getRideType() + "|"
-                + rideOptions.getRideMode() + "|" + passengerFeedback + "|"
-                + rideOptions.getLocation() + "|"
-                + time + "|"
-                + "completed"
-                +"\n";
 
+        // getting the last accepted request information by the email of the passenger and updating the ride history file
         try{
+            Request acceptedRequest = getLastAcceptedRequestForPassenger(passenger.getEmail());
+            if (acceptedRequest == null) {
+                System.err.println("No accepted request found for passenger: " + passenger.getEmail());
+                return 0; // Error
+            }
+            String record = passenger.getEmail() + "|" + acceptedRequest.getDriverEmail() + "|" +
+                    acceptedRequest.getRideType() + "|" +
+                    acceptedRequest.getRideMode() + "|" +
+                    passengerFeedback + "|" +
+                    acceptedRequest.getLocation() + "|" +
+                    acceptedRequest.getTime() + "|" +
+                    "completed"
+                    + "\n";
+
             File dataFolder = new File(DATA_FOLDER);
             if (!dataFolder.exists()) {
                 dataFolder.mkdirs();
@@ -227,14 +231,13 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
             rideDataWriter.write(record);
             rideDataWriter.flush();
             rideDataWriter.close();
-            System.out.println("Ride added to passenger history: " + passenger.getEmail());
+            System.out.println("Completed ride added to passenger history: " + passenger.getEmail());
 
             return 1; // Indicate success
         } catch (Exception e) {
-            System.err.println("Error adding ride to passenger history: " + e.getMessage());
+            System.err.println("Error adding completed ride to passenger history: " + e.getMessage());
+            return 0; // Error
         }
-
-        return 0;
     }
 
     @Override
@@ -261,20 +264,20 @@ public class RideServer extends UnicastRemoteObject implements RideServerRMI {
     }
 
     @Override
-    public Request getAcceptedRequestForPassenger(String passengerEmail) throws RemoteException {
+    public Request getLastAcceptedRequestForPassenger(String passengerEmail) throws RemoteException {
         try {
             FileReader requestDataReader = new FileReader(DATA_FOLDER + REQUEST_DATA_FILE);
             BufferedReader bufferedReader = new BufferedReader(requestDataReader);
+            Request request = null;
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
                 if (parts[0].equals(passengerEmail) && parts[2].equals("accepted")) {
-                    Request request = new Request(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
-                    bufferedReader.close();
-                    return request; // Return the ongoing request object
+                    request = new Request(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
                 }
             }
             bufferedReader.close();
+            return request; // Return the last accepted request
         } catch (Exception e) {
             System.err.println("Error retrieving ongoing request: " + e.getMessage());
         }

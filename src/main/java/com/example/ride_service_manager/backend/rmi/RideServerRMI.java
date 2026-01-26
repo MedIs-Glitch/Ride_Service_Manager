@@ -71,12 +71,12 @@ public interface RideServerRMI extends Remote {
      *      1. If the ride is successfully added to the history, return 1.
      *      2. If an error occurs while adding the ride, return 0.
      * */
-    int addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+    int addCompletedRideToPassengerHistory(Passenger passenger,
                                            String passengerFeedback) throws RemoteException;
 
     public String getLastRequestStatus(String passengerEmail) throws RemoteException;
 
-    public Request getAcceptedRequestForPassenger(String passengerEmail) throws RemoteException;
+    public Request getLastAcceptedRequestForPassenger(String passengerEmail) throws RemoteException;
 
     public ArrayList<Request> getOngoingRequestsForDriver(String driverEmail) throws RemoteException;
 

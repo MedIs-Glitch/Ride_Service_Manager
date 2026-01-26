@@ -149,9 +149,9 @@ public class Client {
         }
     }
 
-    public Request getAcceptedRequestForPassenger(String email) throws MalformedURLException, NotBoundException, RemoteException {
+    public Request getLastAcceptedRequestForPassenger(String email) throws MalformedURLException, NotBoundException, RemoteException {
         try{
-            return lookUpRideServer.getAcceptedRequestForPassenger(email);
+            return lookUpRideServer.getLastAcceptedRequestForPassenger(email);
         }
         catch(Exception e){
             System.err.println(e.getMessage());
@@ -220,10 +220,10 @@ public class Client {
     }
 
 
-    public void addCompletedRideToPassengerHistory(Driver driver, Passenger passenger, RideOptions rideOptions,
+    public void addCompletedRideToPassengerHistory(Passenger passenger,
                                                    String passengerFeedback) throws MalformedURLException, NotBoundException, RemoteException {
         try{
-            lookUpRideServer.addCompletedRideToPassengerHistory(driver, passenger, rideOptions, passengerFeedback);
+            lookUpRideServer.addCompletedRideToPassengerHistory(passenger, passengerFeedback);
         }
         catch(Exception e){
             System.err.println(e.getMessage());
